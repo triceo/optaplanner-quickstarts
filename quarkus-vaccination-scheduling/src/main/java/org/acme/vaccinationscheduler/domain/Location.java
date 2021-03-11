@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2021 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,9 @@
 
 package org.acme.vaccinationscheduler.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import static java.lang.Math.ceil;
 import static java.lang.Math.sqrt;
 
-@JsonFormat(shape = JsonFormat.Shape.ARRAY)
 public class Location {
 
     // Approximate Metric Equivalents for Degrees. At the equator for longitude and for latitude anywhere,

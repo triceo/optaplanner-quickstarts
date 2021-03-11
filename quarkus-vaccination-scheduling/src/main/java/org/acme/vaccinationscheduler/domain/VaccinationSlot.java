@@ -18,8 +18,6 @@ package org.acme.vaccinationscheduler.domain;
 
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-
 public class VaccinationSlot {
 
     @PlanningId
@@ -27,7 +25,6 @@ public class VaccinationSlot {
 
     private VaccinationCenter vaccinationCenter;
     private Timeslot timeslot;
-    @JsonIdentityReference(alwaysAsId = true)
     private VaccineType vaccineType;
 
     private final int lineIndexOffset;

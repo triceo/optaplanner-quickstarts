@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2021 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,6 @@
 
 package org.acme.vaccinationscheduler.bootstrap;
 
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.HOURS;
-import static java.time.temporal.ChronoUnit.YEARS;
-
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -31,11 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
-
 import org.acme.vaccinationscheduler.domain.Location;
 import org.acme.vaccinationscheduler.domain.Person;
 import org.acme.vaccinationscheduler.domain.Timeslot;
@@ -43,14 +34,13 @@ import org.acme.vaccinationscheduler.domain.VaccinationCenter;
 import org.acme.vaccinationscheduler.domain.VaccinationSchedule;
 import org.acme.vaccinationscheduler.domain.VaccinationSlot;
 import org.acme.vaccinationscheduler.domain.VaccineType;
-import org.acme.vaccinationscheduler.persistence.VaccinationScheduleRepository;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.quarkus.runtime.StartupEvent;
+import static java.time.temporal.ChronoUnit.DAYS;
+import static java.time.temporal.ChronoUnit.HOURS;
+import static java.time.temporal.ChronoUnit.YEARS;
 
-@ApplicationScoped
 public class DemoDataGenerator {
 
     public static final String[] PERSON_FIRST_NAMES = {
@@ -68,25 +58,24 @@ public class DemoDataGenerator {
 
     protected static final Logger logger = LoggerFactory.getLogger(DemoDataGenerator.class);
 
-    @ConfigProperty(name = "demo-data.vaccination-center-count", defaultValue = "3")
     int vaccinationCenterCount;
-    @ConfigProperty(name = "demo-data.total-line-count", defaultValue = "5")
     int totalLineCount;
 
     // Default latitude and longitude window: city of Atlanta, US.
-    @ConfigProperty(name = "demo-data.map.minimum-latitude", defaultValue = "33.40")
-    double minimumLatitude;
-    @ConfigProperty(name = "demo-data.map.maximum-latitude", defaultValue = "34.10")
-    double maximumLatitude;
-    @ConfigProperty(name = "demo-data.map.minimum-longitude", defaultValue = "-84.90")
-    double minimumLongitude;
-    @ConfigProperty(name = "demo-data.map.maximum-longitude", defaultValue = "-83.90")
-    double maximumLongitude;
+    double minimumLatitude = 33.4;
+    double maximumLatitude = 34.10;
+    double minimumLongitude = -84.9;
+    double maximumLongitude = -83.9;
 
-    @Inject
-    VaccinationScheduleRepository vaccinationScheduleRepository;
+    public void setVaccinationCenterCount(int vaccinationCenterCount) {
+        this.vaccinationCenterCount = vaccinationCenterCount;
+    }
 
-    public void generateDemoData(@Observes StartupEvent startupEvent) {
+    public void setTotalLineCount(int totalLineCount) {
+        this.totalLineCount = totalLineCount;
+    }
+
+    public VaccinationSchedule createVaccinationSchedule() {
         List<VaccineType> vaccineTypeList = Arrays.asList(
                 new VaccineType("Pfizer", 19, 21),
                 new VaccineType("Moderna", 26, 28),
@@ -180,12 +169,8 @@ public class DemoDataGenerator {
                     birthdate, age, firstDoseInjected, firstDoseVaccineType, firstDoseDate);
             personList.add(person);
         }
-        vaccinationScheduleRepository.save(new VaccinationSchedule(vaccineTypeList, vaccinationCenterList,
-                timeslotList, vaccinationSlotList, personList));
-        logger.info("Generated dataset with {} vaccination slots, {} injections and {} persons.",
-                vaccinationSlotList.size(),
-                vaccinationSlotList.stream().mapToInt(VaccinationSlot::getCapacity).sum(),
-                personList.size());
+        return new VaccinationSchedule(vaccineTypeList, vaccinationCenterList,
+                timeslotList, vaccinationSlotList, personList);
     }
 
     public Location pickLocation(Random random) {

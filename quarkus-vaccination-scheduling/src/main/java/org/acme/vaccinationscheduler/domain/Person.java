@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2021 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,14 +17,11 @@
 package org.acme.vaccinationscheduler.domain;
 
 import java.time.LocalDate;
-
 import org.acme.vaccinationscheduler.solver.PersonDifficultyComparator;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.entity.PlanningPin;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
-
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 
 @PlanningEntity(difficultyComparatorClass = PersonDifficultyComparator.class)
 public class Person {
@@ -38,7 +35,6 @@ public class Person {
     private int age;
 
     private boolean firstDoseInjected;
-    @JsonIdentityReference(alwaysAsId = true)
     private VaccineType firstDoseVaccineType;
     private LocalDate firstDoseDate;
 
