@@ -4,6 +4,9 @@
   <scoreDirectorFactory>
     <constraintProviderClass>org.acme.vaccinationscheduler.solver.VaccinationScheduleConstraintProvider</constraintProviderClass>
   </scoreDirectorFactory>
+  <termination>
+    <minutesSpentLimit>5</minutesSpentLimit>
+  </termination>
   <constructionHeuristic/>
   <localSearch/>
 </solver>

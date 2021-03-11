@@ -28,7 +28,7 @@ import org.optaplanner.core.config.solver.SolverConfig;
 public class Main {
 
     private static Solver<VaccinationSchedule> getSolver(ConstraintStreamImplType constraintStreamImplType) {
-        SolverConfig solverConfig = SolverConfig.createFromXmlResource("solverConfig.xml");
+        SolverConfig solverConfig = SolverConfig.createFromXmlResource("org/acme/vaccinationscheduler/solverConfig.xml");
         solverConfig.setSolutionClass(VaccinationSchedule.class);
         solverConfig.setEntityClassList(Collections.singletonList(Person.class));
         solverConfig.getScoreDirectorFactoryConfig().setConstraintStreamImplType(constraintStreamImplType);
@@ -48,11 +48,9 @@ public class Main {
         //                            vvvvv Change to 40, 1200 for production data set.
         //                            Production data set will take several minutes to run out of 8G heap with DROOLS.
         VaccinationSchedule problem = generateData(3, 5);
-        //                                                                   vvvvvvvvvvvvvv Change to BAVET.
+        //                                             vvvvvvvvvvvvvv Change to BAVET.
         Solver<VaccinationSchedule> solver = getSolver(ConstraintStreamImplType.DROOLS);
-        // Just to show that something is running.
-        solver.addEventListener(event -> System.out.println("New best solution:" + event.getNewBestScore()));
-        // This runs the solver and it will run forever.
+        // This runs the solver and it will run for as long as solverConfig.xml says.
         solver.solve(problem);
     }
 
