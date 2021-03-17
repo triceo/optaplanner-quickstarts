@@ -4,9 +4,6 @@
   <scoreDirectorFactory>
     <constraintProviderClass>org.acme.vaccinationscheduler.solver.VaccinationScheduleConstraintProvider</constraintProviderClass>
   </scoreDirectorFactory>
-  <termination>
-    <minutesSpentLimit>5</minutesSpentLimit>
-  </termination>
+  <!-- Solver will terminate after the CH is done. For large data set, CH itself takes 20+ minutes. -->
   <constructionHeuristic/>
-  <localSearch/>
 </solver>

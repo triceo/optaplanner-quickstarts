@@ -48,10 +48,12 @@ public class Main {
         //                            vvvvv Change to 40, 1200 for production data set.
         //                            Production data set will take several minutes to run out of 8G heap with DROOLS.
         VaccinationSchedule problem = generateData(3, 5);
-        //                                             vvvvvvvvvvvvvv Change to BAVET.
-        Solver<VaccinationSchedule> solver = getSolver(ConstraintStreamImplType.DROOLS);
-        // This runs the solver and it will run for as long as solverConfig.xml says.
+        // First run Bavet.
+        Solver<VaccinationSchedule> solver = getSolver(ConstraintStreamImplType.BAVET);
         solver.solve(problem);
+        // Then run Drools in the same JVM, to get comparable numbers.
+        Solver<VaccinationSchedule> solver2 = getSolver(ConstraintStreamImplType.DROOLS);
+        solver2.solve(problem);
     }
 
 }

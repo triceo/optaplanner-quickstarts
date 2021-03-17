@@ -11,7 +11,7 @@
   <!-- To override the info log level from the command line, use the VM option "-Dlogback.level.org.drools=debug" -->
   <logger name="org.drools" level="info"/>
 
-  <root level="debug">
+  <root level="info">
     <appender-ref ref="consoleAppender" />
   </root>
 
