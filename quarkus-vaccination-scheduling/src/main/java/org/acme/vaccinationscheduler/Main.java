@@ -46,8 +46,7 @@ public class Main {
     public static void main(String[] args) {
         //                            vvvvv Change to 20, 100 for medium data set.
         //                            vvvvv Change to 40, 1200 for production data set.
-        //                            Production data set will take several minutes to run out of 8G heap with DROOLS.
-        VaccinationSchedule problem = generateData(3, 5);
+        VaccinationSchedule problem = generateData(40, 1200);
         // First run Bavet.
         Solver<VaccinationSchedule> solver = getSolver(ConstraintStreamImplType.BAVET);
         solver.solve(problem);
